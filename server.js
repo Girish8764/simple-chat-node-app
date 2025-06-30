@@ -1,7 +1,6 @@
 /**
-* Real Time chatting app
-* @author Shashank Tiwari
-*/
+ * @author Shashank Tiwari
+ */
 'use strict';
 
 const express = require("express");
@@ -9,23 +8,22 @@ const http = require('http');
 const socketio = require('socket.io');
 const bodyParser = require('body-parser');
 
-const socketEvents = require('./utils/socket'); 
-const routes = require('./utils/routes'); 
-const config = require('./utils/config'); 
+const socketEvents = require('./utils/socket');
+const routes = require('./utils/routes');
+const config = require('./utils/config');
 
 
 class Server{
 
     constructor(){
         this.port =  process.env.PORT || 3000;
-        this.host = `localhost`;
-        
+        this.host = `0.0.0.0`;  // <-- yaha fix kiya localhost ko
         this.app = express();
         this.http = http.Server(this.app);
         this.socket = socketio(this.http);
     }
 
-    appConfig(){        
+    appConfig(){
         this.app.use(
             bodyParser.json()
         );
@@ -37,10 +35,9 @@ class Server{
         new routes(this.app).routesConfig();
         new socketEvents(this.socket).socketConfig();
     }
-    /* Including app Routes ends*/  
+    /* Including app Routes ends*/
 
     appExecute(){
-
         this.appConfig();
         this.includeRoutes();
 
@@ -53,3 +50,4 @@ class Server{
 
 const app = new Server();
 app.appExecute();
+
