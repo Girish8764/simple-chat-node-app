@@ -17,7 +17,7 @@ class Server{
 
     constructor(){
         this.port =  process.env.PORT || 3000;
-        this.host = `0.0.0.0`;  // <-- yaha fix kiya localhost ko
+        this.host = '127.0.0.1'
         this.app = express();
         this.http = http.Server(this.app);
         this.socket = socketio(this.http);
